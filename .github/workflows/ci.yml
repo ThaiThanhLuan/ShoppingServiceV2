@@ -62,6 +62,7 @@ jobs:
         body: ${{ steps.tag_version.outputs.changelog }}
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+        
     - name: serverless deploy
       uses: serverless/github-action@master
       with:

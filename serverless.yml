@@ -40,8 +40,24 @@ provider:
   iamRoleStatements:
     - Effect: "Allow"
       Action:
-        - lambda:InvokeFunction
-        - lambda:InvokeAsync      
+        - "s3:ListBucket"
+        - "s3:*"
+      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
+    - Effect: "Allow"
+      Action:
+        - "s3:GetObject"
+      Resource:
+        Fn::Join:
+          - ""
+          - - "arn:aws:s3:::"
+            - "Ref" : "ServerlessDeploymentBucket"
+            - "/*"
+    - Effect: "Allow"
+      Action:
+        - "s3:GetObject"
+        - "s3:PutObject"
+      Resource: "arn:aws:s3:::routing3-cache-files/*"
+           
 package:
   individually: true
 functions:
@@ -53,13 +69,6 @@ functions:
       Port: ${env:SHOPPING_QUEUE_PORT}
     handler: ShoppingServiceV2::ShoppingServiceV2.LambdaEntryPoint::FunctionHandlerAsync
     # you can add packaging information here
-    vpc: # Optional VPC. But if you use VPC then both subproperties (securityGroupIds and subnetIds) are required
-     securityGroupIds:
-       - sg-819725fa
-     subnetIds:
-       - subnet-909453ec
-       - subnet-77b8723b
-       - subnet-0f39b065
     package:
       artifact: bin/Release/netcoreapp3.1/shopping-service-${self:custom.version}.zip
     timeout: 20  
