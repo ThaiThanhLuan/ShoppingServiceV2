@@ -74,4 +74,4 @@ functions:
     timeout: 20  
 events:
   method: POST
-  path: /v1/prođuc
+  path: /v1/product
