@@ -68,13 +68,12 @@ functions:
       PassWord: ${env:QUEUE_PASSWORD}
       Port: ${env:QUEUE_PORT}
       AUTH_VALID_AUDIENCE: 'ApplicationUser'
-      AUTH_VALID_ISSUER: { "Fn::Join" : ["", ["https://", { "Ref" : "HttpApi" }, ".execute-api.${self:provider.region}.amazonaws.com"] ]  }
     handler: ShoppingServiceV2::ShoppingServiceV2.LambdaEntryPoint::FunctionHandlerAsync
     # you can add packaging information here
     package:
       artifact: bin/Release/netcoreapp3.1/shopping-service-demo-${self:custom.version}.zip
     timeout: 20  
-events:
-  - httpApi:
-     method: POST
-     path: /swagger/index.html
+    events:
+      - httpApi:
+         method: POST
+         path: /swagger/index.html
