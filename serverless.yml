@@ -65,8 +65,8 @@ functions:
     environment:
       Host: ${env:QUEUE_HOST}    #!ImportValue ${self:provider.stage}-DBHost
       UserName: ${env:QUEUE_USER}
-      PassWord: ${env:SHOPPING_QUEUE_PASSWORD}
-      Port: ${env:SHOPPING_QUEUE_PORT}
+      PassWord: ${env:QUEUE_PASSWORD}
+      Port: ${env:QUEUE_PORT}
     handler: ShoppingServiceV2::ShoppingServiceV2.LambdaEntryPoint::FunctionHandlerAsync
     # you can add packaging information here
     package:
