@@ -12,7 +12,7 @@
 #
 # Happy Coding!
 
-service: shopping-service
+service: shopping-service-demo
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
 #org: your-org-name
@@ -26,3 +26,40 @@ custom:
 
 plugins:
   - serverless-apigateway-route-settings
+
+provider:
+  name: aws
+  runtime: dotnetcore3.1
+  stage: dev
+  region: eu-central-1
+  logs:
+    httpApi: true
+  httpApi:
+    payload: '1.0' #Or use 1.0
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - lambda:InvokeFunction
+        - lambda:InvokeAsync      
+package:
+  individually: true
+functions:
+  shopping-service-demo:
+    environment:
+      Host: ${env:QUEUE_HOST}    #!ImportValue ${self:provider.stage}-DBHost
+      UserName: ${env:QUEUE_USER}
+      PassWord: ${env:SHOPPING_QUEUE_PASSWORD}
+      Port: ${env:SHOPPING_QUEUE_PORT}
+    handler: ShoppingServiceV2::ShoppingServiceV2.LambdaEntryPoint::FunctionHandlerAsync
+    # you can add packaging information here
+    vpc: # Optional VPC. But if you use VPC then both subproperties (securityGroupIds and subnetIds) are required
+     securityGroupIds:
+       - sg-819725fa
+     subnetIds:
+       - subnet-909453ec
+       - subnet-77b8723b
+       - subnet-0f39b065
+    package:
+      artifact: bin/Release/netcoreapp3.1/shopping-service-${self:custom.version}.zip
+    timeout: 20  
