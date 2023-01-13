@@ -70,7 +70,7 @@ functions:
     handler: ShoppingServiceV2::ShoppingServiceV2.LambdaEntryPoint::FunctionHandlerAsync
     # you can add packaging information here
     package:
-      artifact: bin/Release/netcoreapp3.1/shopping-service-${self:custom.version}.zip
+      artifact: bin/Release/netcoreapp3.1/shopping-service-demo${self:custom.version}.zip
     timeout: 20  
 events:
   method: POST
