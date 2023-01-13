@@ -62,11 +62,11 @@ jobs:
         body: ${{ steps.tag_version.outputs.changelog }}
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-        
+
     - name: serverless deploy
       uses: serverless/github-action@master
       with:
-        rgs: -c "serverless plugin install --name serverless-apigateway-route-settings && serverless deploy --stage dev"
+        args: -c "serverless plugin install --name serverless-apigateway-route-settings && serverless deploy --stage dev"
         entrypoint: /bin/sh
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.SHOPPING_SERVICE_AWS_ACCESS_KEY_ID }}
