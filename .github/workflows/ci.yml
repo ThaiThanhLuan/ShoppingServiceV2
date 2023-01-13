@@ -53,3 +53,12 @@ jobs:
          git commit -a -m "chore: release ${{ steps.tag_version.outputs.new_version }}" --allow-empty
          git tag -fa ${{ steps.tag_version.outputs.new_tag }} -m "Release version ${{ steps.tag_version.outputs.new_version }}"
          git push origin ${{ steps.tag_version.outputs.new_tag }}
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ steps.tag_version.outputs.new_tag }}
+        release_name: ${{ steps.tag_version.outputs.new_tag }}
+        body: ${{ steps.tag_version.outputs.changelog }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
