@@ -75,5 +75,20 @@ functions:
     timeout: 20  
     events:
       - httpApi:
-         method: POST
-         path: /swagger/index.html
+          method: GET
+          path: /swagger/index.html
+      - httpApi:
+          method: GET
+          path: /swagger/v1/swagger.json
+      - httpApi:
+          method: GET
+          path: /swagger/swagger-ui.css
+      - httpApi:
+          method: GET
+          path: /swagger/swagger-ui-bundle.js
+      - httpApi:
+          method: GET
+          path: /swagger/swagger-ui-standalone-preset.js
+      - httpApi:
+          method: POST
+          path: /Product
