@@ -57,7 +57,7 @@ provider:
         - "s3:GetObject"
         - "s3:PutObject"
       Resource: "arn:aws:s3:::routing3-cache-files/*"
-           
+
 package:
   individually: true
 functions:
@@ -72,3 +72,6 @@ functions:
     package:
       artifact: bin/Release/netcoreapp3.1/shopping-service-${self:custom.version}.zip
     timeout: 20  
+events:
+  method: POST
+  path: /v1/prođuc
