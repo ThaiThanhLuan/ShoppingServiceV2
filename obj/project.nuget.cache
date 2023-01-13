@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MRx5Uhn3MFkcV5CEbSGKzckUrTwCkMQyx+cVtoDbWbwe6h0xseYp/fJkC0c9ujULlpt6tTNhynI9HGBmfgVrow==",
+  "dgSpecHash": "+k8Yb+RMxer4N3/GHl/Awo9D+tAOlCQxFdlNwj2gKuZMlNIG6f+h3UC3aUtYLrYht2z34lnpZAEgx1cQK1uRGw==",
   "success": true,
-  "projectFilePath": "D:\\ShoppingServiceV2\\ShoppingServiceV2.csproj",
+  "projectFilePath": "D:\\CICDGitHub\\ShoppingServiceV2\\ShoppingServiceV2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LuanThanhThai\\.nuget\\packages\\amazon.lambda.apigatewayevents\\2.1.0\\amazon.lambda.apigatewayevents.2.1.0.nupkg.sha512",
     "C:\\Users\\LuanThanhThai\\.nuget\\packages\\amazon.lambda.applicationloadbalancerevents\\2.0.0\\amazon.lambda.applicationloadbalancerevents.2.0.0.nupkg.sha512",

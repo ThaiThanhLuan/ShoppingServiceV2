@@ -33,7 +33,7 @@ namespace ShoppingService2.RabbitMQ
             factory.Password = _configuration.GetValue<string>("QueueService:Password");
             factory.VirtualHost = _configuration.GetValue<string>("QueueService:VirtualHost");
             factory.HostName = _configuration.GetValue<string>("QueueService:Host");
-            factory.Port = _configuration.GetValue<int>("QueueService:Port"); ;
+            factory.Port = _configuration.GetValue<int>("QueueService:Port"); 
             factory.Ssl = new SslOption
             {
                 Enabled = true,
