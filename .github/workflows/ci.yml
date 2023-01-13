@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "main" ]
 env:
-      REPO_NAME: ShoppingService # {"$kpt-set":"app"}
+      REPO_NAME: ShoppingServiceV2 # {"$kpt-set":"app"}
 jobs:
   build:
 
