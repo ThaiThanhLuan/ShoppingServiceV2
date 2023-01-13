@@ -82,4 +82,6 @@ jobs:
         aws-access-key-id: ${{ secrets.ShOPPING_SERVICE_AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.SHOPPING_SERVICE_AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-central-1
-      
+    - name: Push Function zip package to S3
+      run: |
+        aws s3 cp bin/Release/netcoreapp3.1/${{ env.REPO_NAME }}-${{ steps.tag_version.outputs.new_version }}.zip s3://deploy-lambda-packages
