@@ -22,7 +22,7 @@ service: shopping-service-demo
 frameworkVersion: '3'
 
 custom:
-  version: ${env:VERSION}
+  version: 0.0.8-main.0
 
 plugins:
   - serverless-apigateway-route-settings
