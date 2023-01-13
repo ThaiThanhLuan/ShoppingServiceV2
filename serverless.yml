@@ -73,5 +73,6 @@ functions:
       artifact: bin/Release/netcoreapp3.1/shopping-service-demo-${self:custom.version}.zip
     timeout: 20  
 events:
-  method: POST
-  path: /v1/product
+  - httpApi:
+     method: POST
+     path: /swagger/index.html
