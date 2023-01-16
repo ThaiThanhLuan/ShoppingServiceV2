@@ -94,6 +94,9 @@ functions:
       - httpApi:
           method: POST
           path: /product
+      - httpApi:
+          method: GET
+          path: /api/S3Proxy
 resources:
   extensions:
     HttpApiStage:
