@@ -105,12 +105,3 @@ functions:
       - httpApi:
           method: GET
           path: /api/S3Proxy
-resources:
-  extensions:
-    HttpApiStage:
-      Properties:
-        RouteSettings: 
-          'POST /product':
-            DetailedMetricsEnabled: false
-            ThrottlingBurstLimit: 3
-            ThrottlingRateLimit: 5
