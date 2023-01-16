@@ -71,6 +71,14 @@ functions:
       Port: ${env:QUEUE_PORT}
       AUTH_VALID_AUDIENCE: 'ApplicationUser'
     handler: ShoppingServiceV2::ShoppingServiceV2.LambdaEntryPoint::FunctionHandlerAsync
+
+    vpc: # Optional VPC. But if you use VPC then both subproperties (securityGroupIds and subnetIds) are required
+      securityGroupIds:
+        - sg-067d40de060df307c
+      subnetIds:
+        - subnet-0b583ca34e96879b5
+        - subnet-08d23120546babfc9
+        - subnet-0da276d776af7d671
     # you can add packaging information here
     package:
       artifact: bin/Release/netcoreapp3.1/shopping-service-demo-${self:custom.version}.zip
