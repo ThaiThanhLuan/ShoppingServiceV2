@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ShoppingService2.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("product")]
     public class ProductController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -26,6 +26,7 @@ namespace ShoppingService2.Controllers
         }
 
         [HttpPost]
+        [Route("")]
         public IActionResult PostProduct(Models.Product product)
         {
             _logger.LogInformation("Insert data successfully");
