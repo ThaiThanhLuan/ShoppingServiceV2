@@ -92,3 +92,12 @@ functions:
       - httpApi:
           method: POST
           path: /product
+resources:
+  extensions:
+    HttpApiStage:
+      Properties:
+        RouteSettings: 
+          'POST /product':
+            DetailedMetricsEnabled: false
+            ThrottlingBurstLimit: 3
+            ThrottlingRateLimit: 5
