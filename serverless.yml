@@ -119,10 +119,10 @@ resources:
     #   Value: !GetAtt ServerlessStorageSecurityGroup.GroupId
     #   Export:
     #     Name: ${self:provider.stage}-StorageSecurityGroupId
-    # PrivateSubnetA:
-    #   Value: !Ref PrivateSubnetA
-    #   Export:
-    #     Name: ${self:provider.stage}-PrivateSubnetA
+    PrivateSubnetA:
+      Value: !Ref PrivateSubnetA
+      Export:
+        Name: ${self:provider.stage}-PrivateSubnetA
     PrivateSubnetB:
       Value: !Ref PrivateSubnetB
       Export:
