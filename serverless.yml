@@ -123,10 +123,10 @@ resources:
     #   Value: !Ref PrivateSubnetA
     #   Export:
     #     Name: ${self:provider.stage}-PrivateSubnetA
-    # PrivateSubnetB:
-    #   Value: !Ref PrivateSubnetB
-    #   Export:
-    #     Name: ${self:provider.stage}-PrivateSubnetB
+    PrivateSubnetB:
+      Value: !Ref PrivateSubnetB
+      Export:
+        Name: ${self:provider.stage}-PrivateSubnetB
   Resources:
     VPC:
       Type: AWS::EC2::VPC
