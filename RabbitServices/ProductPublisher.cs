@@ -34,13 +34,13 @@ namespace ShoppingService2.RabbitMQ
             factory.VirtualHost = "/";
             factory.HostName = "b-e5c161a3-7ce3-4e6e-b207-0f15af8dbcb9.mq.eu-central-1.amazonaws.com";
             factory.Port = 5671; 
-            factory.Ssl = new SslOption
+           /* factory.Ssl = new SslOption
             {
                 Enabled = true,
                 ServerName = "b-e5c161a3-7ce3-4e6e-b207-0f15af8dbcb9.mq.eu-central-1.amazonaws.com"
             };
 
-            ServicePointManager.SecurityProtocol = SecurityProtocolTypeExtensions.Tls12;
+            ServicePointManager.SecurityProtocol = SecurityProtocolTypeExtensions.Tls12;*/
             try
             {
                 using var connection = factory.CreateConnection();
