@@ -41,21 +41,29 @@ namespace ShoppingService2.RabbitMQ
             };
 
             ServicePointManager.SecurityProtocol = SecurityProtocolTypeExtensions.Tls12;
-            using var connection = factory.CreateConnection();
-            using var channel = connection.CreateModel();
-            channel.QueueDeclare(queue: "hello",
-                durable: false,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
-            var json = JsonConvert.SerializeObject(product);
-            var body = Encoding.UTF8.GetBytes(json);
-           
-             channel.BasicPublish(exchange: "",
-                    routingKey: "hello",
-                    basicProperties: null,
-                    body: body);
-             _logger.LogInformation($"Send data successfully {json}");
+            try
+            {
+                using var connection = factory.CreateConnection();
+                using var channel = connection.CreateModel();
+                channel.QueueDeclare(queue: "hello",
+                    durable: false,
+                    exclusive: false,
+                    autoDelete: false,
+                    arguments: null);
+                var json = JsonConvert.SerializeObject(product);
+                var body = Encoding.UTF8.GetBytes(json);
+
+                channel.BasicPublish(exchange: "",
+                       routingKey: "hello",
+                       basicProperties: null,
+                       body: body);
+                _logger.LogInformation($"Send data successfully {json}");
+            }
+            catch(Exception e)
+            {
+                _logger.LogInformation(e.Message);
+
+            }
 
         }
 
