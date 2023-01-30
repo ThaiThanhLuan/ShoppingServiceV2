@@ -69,7 +69,7 @@ functions:
       Host: ${env:QUEUE_HOST}    #!ImportValue ${self:provider.stage}-DBHost
       UserName: ${env:QUEUE_USER}
       PassWord: ${env:QUEUE_PASSWORD}
-      Port: ${env:QUEUE_PORT}
+      Port: 5671
       AUTH_VALID_AUDIENCE: 'ApplicationUser'
     handler: ShoppingServiceV2::ShoppingServiceV2.LambdaEntryPoint::FunctionHandlerAsync
 
