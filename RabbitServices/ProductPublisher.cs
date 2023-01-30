@@ -29,15 +29,15 @@ namespace ShoppingService2.RabbitMQ
         public void SendProductMessage<T>(T product)
         {
             ConnectionFactory factory = new ConnectionFactory();
-            factory.UserName = _configuration.GetValue<string>("QueueService:UserName");
-            factory.Password = _configuration.GetValue<string>("QueueService:Password");
-            factory.VirtualHost = _configuration.GetValue<string>("QueueService:VirtualHost");
-            factory.HostName = _configuration.GetValue<string>("QueueService:Host");
-            factory.Port = _configuration.GetValue<int>("QueueService:Port"); 
+            factory.UserName = "master";
+            factory.Password = "master@123456789";
+            factory.VirtualHost = "/";
+            factory.HostName = "b-e5c161a3-7ce3-4e6e-b207-0f15af8dbcb9.mq.eu-central-1.amazonaws.com";
+            factory.Port = 5671; 
             factory.Ssl = new SslOption
             {
                 Enabled = true,
-                ServerName = _configuration.GetValue<string>("QueueService:Host")
+                ServerName = "b-e5c161a3-7ce3-4e6e-b207-0f15af8dbcb9.mq.eu-central-1.amazonaws.com"
             };
 
             ServicePointManager.SecurityProtocol = SecurityProtocolTypeExtensions.Tls12;
