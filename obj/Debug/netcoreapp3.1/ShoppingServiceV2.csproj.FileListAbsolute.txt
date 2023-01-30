@@ -62,7 +62,6 @@ D:\CICDGitHub\ShoppingServiceV2\bin\Debug\netcoreapp3.1\RabbitMQ.Client.dll
 D:\CICDGitHub\ShoppingServiceV2\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
 D:\CICDGitHub\ShoppingServiceV2\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\CICDGitHub\ShoppingServiceV2\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
-D:\CICDGitHub\ShoppingServiceV2\bin\Debug\netcoreapp3.1\System.Threading.Channels.dll
 D:\CICDGitHub\ShoppingServiceV2\obj\Debug\netcoreapp3.1\ShoppingServiceV2.csproj.AssemblyReference.cache
 D:\CICDGitHub\ShoppingServiceV2\obj\Debug\netcoreapp3.1\ShoppingServiceV2.GeneratedMSBuildEditorConfig.editorconfig
 D:\CICDGitHub\ShoppingServiceV2\obj\Debug\netcoreapp3.1\ShoppingServiceV2.AssemblyInfoInputs.cache
