@@ -115,10 +115,6 @@ resources:
       Value: !GetAtt ServerlessSecurityGroup.GroupId
       Export:
         Name: ${self:provider.stage}-LambdaSecurityGroupId
-    StorageSGId:
-      Value: !GetAtt ServerlessStorageSecurityGroup.GroupId
-      Export:
-         Name: ${self:provider.stage}-StorageSecurityGroupId
     PrivateSubnetA:
       Value: !Ref PrivateSubnetA
       Export:
