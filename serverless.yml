@@ -259,14 +259,14 @@ resources:
     #       Ref: PrivateSubnetB
     #     RouteTableId:
     #       Ref: PrivateRouteTableB
-    # ServerlessSecurityGroup:
-    #   DependsOn: VPC
-    #   Type: AWS::EC2::SecurityGroup
-    #   Properties:
-    #     GroupName: ${self:provider.stage}-ServerlessSecurityGroup
-    #     GroupDescription: SecurityGroup for Serverless Functions
-    #     VpcId:
-    #       Ref: VPC
+    ServerlessSecurityGroup:
+      DependsOn: VPC
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupName: ${self:provider.stage}-ServerlessSecurityGroup
+        GroupDescription: SecurityGroup for Serverless Functions
+        VpcId:
+          Ref: VPC
     # ServerlessSecurityGroupIngress:
     #   DependsOn: VPC
     #   Type: AWS::EC2::SecurityGroupIngress
