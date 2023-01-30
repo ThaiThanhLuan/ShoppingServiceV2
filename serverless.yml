@@ -75,10 +75,11 @@ functions:
 
     vpc: # Optional VPC. But if you use VPC then both subproperties (securityGroupIds and subnetIds) are required
       securityGroupIds:
-        - "Fn::GetAtt": [ServerlessSecurityGroup, GroupId]
+        - sg-819725fa
       subnetIds:
-        - Ref: PrivateSubnetA
-        - Ref: PrivateSubnetB
+        - subnet-909453ec
+        - subnet-77b8723b
+        - subnet-0f39b065
     # you can add packaging information here
     package:
       artifact: bin/Release/netcoreapp3.1/shopping-service-demo-${self:custom.version}.zip
@@ -105,146 +106,146 @@ functions:
       - httpApi:
           method: GET
           path: /api/S3Proxy       
-resources:
-  Outputs:
-    VPCId:
-      Value: !Ref VPC
-      Export:
-        Name: ${self:provider.stage}-VPCId
-    SGId:
-      Value: !GetAtt ServerlessSecurityGroup.GroupId
-      Export:
-        Name: ${self:provider.stage}-LambdaSecurityGroupId
-    PrivateSubnetA:
-      Value: !Ref PrivateSubnetA
-      Export:
-        Name: ${self:provider.stage}-PrivateSubnetA
-    PrivateSubnetB:
-      Value: !Ref PrivateSubnetB
-      Export:
-        Name: ${self:provider.stage}-PrivateSubnetB
-  Resources:
-    VPC:
-      Type: AWS::EC2::VPC
-      Properties:
-        CidrBlock: "10.0.0.0/16"
-        EnableDnsHostnames: true
-    S3Endpoint:
-      Type: 'AWS::EC2::VPCEndpoint'
-      Properties:
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Principal: '*'
-              Action: '*'
-              Resource: '*'
-        RouteTableIds:
-          - Ref: PrivateRouteTableA
-          - Ref: PrivateRouteTableB
-        ServiceName: !Sub 'com.amazonaws.${self:provider.region}.s3'
-        VpcId: 
-          Ref: VPC
-    IP:
-      Type: AWS::EC2::EIP
-      Properties:
-        Domain: vpc
-    InternetGateway:
-      Type: AWS::EC2::InternetGateway
-    VPCGatewayAttachment:
-      Type: AWS::EC2::VPCGatewayAttachment
-      Properties:
-        VpcId:
-          Ref: VPC
-        InternetGatewayId:
-          Ref: InternetGateway
-    PrivateSubnetA:
-      DependsOn: VPC
-      Type: AWS::EC2::Subnet
-      Properties:
-        VpcId:
-          Ref: VPC
-        AvailabilityZone: ${self:provider.region}a
-        CidrBlock: "10.0.1.0/24"
-    PrivateSubnetB:
-      DependsOn: VPC
-      Type: AWS::EC2::Subnet
-      Properties:
-        VpcId:
-          Ref: VPC
-        AvailabilityZone: ${self:provider.region}b
-        CidrBlock: "10.0.2.0/24"
-    PrivateRouteTableA:
-      Type: AWS::EC2::RouteTable
-      Properties:
-        VpcId:
-          Ref: VPC
-    PrivateRouteA:
-      Type: AWS::EC2::Route
-      Properties:
-        RouteTableId:
-          Ref: PrivateRouteTableA
-        DestinationCidrBlock: 0.0.0.0/0
-        GatewayId:
-          Ref: InternetGateway
-    PrivateRouteTableB:
-      Type: AWS::EC2::RouteTable
-      Properties:
-        VpcId:
-          Ref: VPC
-    PrivateRouteB:
-      Type: AWS::EC2::Route
-      Properties:
-        RouteTableId:
-          Ref: PrivateRouteTableB
-        DestinationCidrBlock: 0.0.0.0/0
-        GatewayId:
-          Ref: InternetGateway
-    SubnetRouteTableAssociationLambdaPrivateA:
-      Type: AWS::EC2::SubnetRouteTableAssociation
-      Properties:
-        SubnetId:
-          Ref: PrivateSubnetA
-        RouteTableId:
-          Ref: PrivateRouteTableA
-    SubnetRouteTableAssociationLambdaPrivateB:
-      Type: AWS::EC2::SubnetRouteTableAssociation
-      Properties:
-        SubnetId:
-          Ref: PrivateSubnetB
-        RouteTableId:
-          Ref: PrivateRouteTableB
-    ServerlessSecurityGroup:
-      DependsOn: VPC
-      Type: AWS::EC2::SecurityGroup
-      Properties:
-        GroupName: ${self:provider.stage}-ServerlessSecurityGroup
-        GroupDescription: SecurityGroup for Serverless Functions
-        VpcId:
-          Ref: VPC
-    ServerlessSecurityGroupIngress:
-      DependsOn: VPC
-      Type: AWS::EC2::SecurityGroupIngress
-      Properties:
-        Description: SecurityGroup for Serverless Functions
-        GroupId: 
-          Ref: ServerlessSecurityGroup
-        IpProtocol: tcp
-        FromPort: 443
-        ToPort: 443
-        SourceSecurityGroupId:
-          Ref: ServerlessSecurityGroup
+# resources:
+#   Outputs:
+#     VPCId:
+#       Value: !Ref VPC
+#       Export:
+#         Name: ${self:provider.stage}-VPCId
+#     SGId:
+#       Value: !GetAtt ServerlessSecurityGroup.GroupId
+#       Export:
+#         Name: ${self:provider.stage}-LambdaSecurityGroupId
+#     PrivateSubnetA:
+#       Value: !Ref PrivateSubnetA
+#       Export:
+#         Name: ${self:provider.stage}-PrivateSubnetA
+#     PrivateSubnetB:
+#       Value: !Ref PrivateSubnetB
+#       Export:
+#         Name: ${self:provider.stage}-PrivateSubnetB
+#   Resources:
+#     VPC:
+#       Type: AWS::EC2::VPC
+#       Properties:
+#         CidrBlock: "10.0.0.0/16"
+#         EnableDnsHostnames: true
+#     S3Endpoint:
+#       Type: 'AWS::EC2::VPCEndpoint'
+#       Properties:
+#         PolicyDocument:
+#           Version: '2012-10-17'
+#           Statement:
+#             - Effect: Allow
+#               Principal: '*'
+#               Action: '*'
+#               Resource: '*'
+#         RouteTableIds:
+#           - Ref: PrivateRouteTableA
+#           - Ref: PrivateRouteTableB
+#         ServiceName: !Sub 'com.amazonaws.${self:provider.region}.s3'
+#         VpcId: 
+#           Ref: VPC
+#     IP:
+#       Type: AWS::EC2::EIP
+#       Properties:
+#         Domain: vpc
+#     InternetGateway:
+#       Type: AWS::EC2::InternetGateway
+#     VPCGatewayAttachment:
+#       Type: AWS::EC2::VPCGatewayAttachment
+#       Properties:
+#         VpcId:
+#           Ref: VPC
+#         InternetGatewayId:
+#           Ref: InternetGateway
+#     PrivateSubnetA:
+#       DependsOn: VPC
+#       Type: AWS::EC2::Subnet
+#       Properties:
+#         VpcId:
+#           Ref: VPC
+#         AvailabilityZone: ${self:provider.region}a
+#         CidrBlock: "10.0.1.0/24"
+#     PrivateSubnetB:
+#       DependsOn: VPC
+#       Type: AWS::EC2::Subnet
+#       Properties:
+#         VpcId:
+#           Ref: VPC
+#         AvailabilityZone: ${self:provider.region}b
+#         CidrBlock: "10.0.2.0/24"
+#     PrivateRouteTableA:
+#       Type: AWS::EC2::RouteTable
+#       Properties:
+#         VpcId:
+#           Ref: VPC
+#     PrivateRouteA:
+#       Type: AWS::EC2::Route
+#       Properties:
+#         RouteTableId:
+#           Ref: PrivateRouteTableA
+#         DestinationCidrBlock: 0.0.0.0/0
+#         GatewayId:
+#           Ref: InternetGateway
+#     PrivateRouteTableB:
+#       Type: AWS::EC2::RouteTable
+#       Properties:
+#         VpcId:
+#           Ref: VPC
+#     PrivateRouteB:
+#       Type: AWS::EC2::Route
+#       Properties:
+#         RouteTableId:
+#           Ref: PrivateRouteTableB
+#         DestinationCidrBlock: 0.0.0.0/0
+#         GatewayId:
+#           Ref: InternetGateway
+#     SubnetRouteTableAssociationLambdaPrivateA:
+#       Type: AWS::EC2::SubnetRouteTableAssociation
+#       Properties:
+#         SubnetId:
+#           Ref: PrivateSubnetA
+#         RouteTableId:
+#           Ref: PrivateRouteTableA
+#     SubnetRouteTableAssociationLambdaPrivateB:
+#       Type: AWS::EC2::SubnetRouteTableAssociation
+#       Properties:
+#         SubnetId:
+#           Ref: PrivateSubnetB
+#         RouteTableId:
+#           Ref: PrivateRouteTableB
+#     ServerlessSecurityGroup:
+#       DependsOn: VPC
+#       Type: AWS::EC2::SecurityGroup
+#       Properties:
+#         GroupName: ${self:provider.stage}-ServerlessSecurityGroup
+#         GroupDescription: SecurityGroup for Serverless Functions
+#         VpcId:
+#           Ref: VPC
+#     ServerlessSecurityGroupIngress:
+#       DependsOn: VPC
+#       Type: AWS::EC2::SecurityGroupIngress
+#       Properties:
+#         Description: SecurityGroup for Serverless Functions
+#         GroupId: 
+#           Ref: ServerlessSecurityGroup
+#         IpProtocol: tcp
+#         FromPort: 443
+#         ToPort: 443
+#         SourceSecurityGroupId:
+#           Ref: ServerlessSecurityGroup
     
-    LambdaVPCEndpoint:
-      Type: AWS::EC2::VPCEndpoint
-      Properties: 
-        PrivateDnsEnabled: True
-        SecurityGroupIds: 
-          - !ImportValue ${self:provider.stage}-LambdaSecurityGroupId
-        ServiceName: 'com.amazonaws.${self:provider.region}.lambda'
-        SubnetIds: 
-          - !ImportValue ${self:provider.stage}-PrivateSubnetA
-          - !ImportValue ${self:provider.stage}-PrivateSubnetB
-        VpcEndpointType: Interface
-        VpcId: !ImportValue ${self:provider.stage}-VPCId
+#     LambdaVPCEndpoint:
+#       Type: AWS::EC2::VPCEndpoint
+#       Properties: 
+#         PrivateDnsEnabled: True
+#         SecurityGroupIds: 
+#           - !ImportValue ${self:provider.stage}-LambdaSecurityGroupId
+#         ServiceName: 'com.amazonaws.${self:provider.region}.lambda'
+#         SubnetIds: 
+#           - !ImportValue ${self:provider.stage}-PrivateSubnetA
+#           - !ImportValue ${self:provider.stage}-PrivateSubnetB
+#         VpcEndpointType: Interface
+#         VpcId: !ImportValue ${self:provider.stage}-VPCId
           
