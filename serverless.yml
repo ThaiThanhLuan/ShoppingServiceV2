@@ -59,7 +59,11 @@ provider:
         - "s3:GetObject"
         - "s3:PutObject"
       Resource: "arn:aws:s3:::routing3-cache-files/*"
-
+    - Effect: "Allow"
+      Action:
+        - "mq:*"
+      Resource: "*"
+      
 package:
   individually: true
            
