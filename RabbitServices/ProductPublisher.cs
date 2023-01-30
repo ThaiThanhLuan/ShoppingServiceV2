@@ -31,7 +31,6 @@ namespace ShoppingService2.RabbitMQ
             ConnectionFactory factory = new ConnectionFactory();
             factory.UserName = "master";
             factory.Password = "master@123456789";
-            factory.VirtualHost = "/";
             factory.HostName = "b-e5c161a3-7ce3-4e6e-b207-0f15af8dbcb9.mq.eu-central-1.amazonaws.com";
             factory.Port = 5671; 
             factory.Ssl = new SslOption
