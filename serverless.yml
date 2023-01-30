@@ -98,10 +98,6 @@ resources:
       Export:
         Name: ${self:provider.stage}-CacheFilesBucket
   Resources:
-    CacheFilesBucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: routing3-cocon-${self:provider.stage}-cache-files
     LambdaPackagesBucket:
       Type: AWS::S3::Bucket
       Properties:
@@ -268,6 +264,18 @@ resources:
           FromPort: 5432
           ToPort: 5432
           CidrIp: 176.74.244.192/27
+    LambdaVPCEndpoint:
+      Type: AWS::EC2::VPCEndpoint
+      Properties: 
+        PrivateDnsEnabled: True
+        SecurityGroupIds: 
+          - !ImportValue ${self:provider.stage}-LambdaSecurityGroupId
+        ServiceName: 'com.amazonaws.${self:provider.region}.lambda'
+        SubnetIds: 
+          - !ImportValue ${self:provider.stage}-PrivateSubnetA
+          - !ImportValue ${self:provider.stage}-PrivateSubnetB
+        VpcEndpointType: Interface
+        VpcId: !ImportValue ${self:provider.stage}-VPCId
           
           
 functions:
@@ -312,16 +320,3 @@ functions:
       - httpApi:
           method: GET
           path: /api/S3Proxy       
-  Resources:
-    LambdaVPCEndpoint:
-      Type: AWS::EC2::VPCEndpoint
-      Properties: 
-        PrivateDnsEnabled: True
-        SecurityGroupIds: 
-          - !ImportValue ${self:provider.stage}-LambdaSecurityGroupId
-        ServiceName: 'com.amazonaws.${self:provider.region}.lambda'
-        SubnetIds: 
-          - !ImportValue ${self:provider.stage}-PrivateSubnetA
-          - !ImportValue ${self:provider.stage}-PrivateSubnetB
-        VpcEndpointType: Interface
-        VpcId: !ImportValue ${self:provider.stage}-VPCId
