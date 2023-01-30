@@ -238,58 +238,7 @@ resources:
         ToPort: 443
         SourceSecurityGroupId:
           Ref: ServerlessSecurityGroup
-    ServerlessStorageSecurityGroup:
-      DependsOn: VPC
-      Type: AWS::EC2::SecurityGroup
-      Properties:
-        GroupDescription: Ingress for Memcached/RDS Cluster
-        GroupName: ${self:provider.stage}-ServerlessStorageSecurityGroup
-        VpcId:
-          Ref: VPC
-        SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 11211
-          ToPort: 11211
-          SourceSecurityGroupId:
-            Ref: ServerlessSecurityGroup
-        - IpProtocol: tcp
-          FromPort: 6379
-          ToPort: 6379
-          SourceSecurityGroupId:
-            Ref: ServerlessSecurityGroup
-        - IpProtocol: tcp
-          FromPort: 5432
-          ToPort: 5432
-          SourceSecurityGroupId:
-            Ref: ServerlessSecurityGroup
-        - IpProtocol: tcp
-          FromPort: 5432
-          ToPort: 5432
-          CidrIp: 185.160.73.126/32
-        - IpProtocol: tcp
-          FromPort: 5432
-          ToPort: 5432
-          CidrIp: 113.160.252.73/32
-        - IpProtocol: tcp
-          FromPort: 5432
-          ToPort: 5432
-          CidrIp: 123.25.108.221/32
-        - IpProtocol: tcp
-          FromPort: 5432
-          ToPort: 5432
-          CidrIp: 27.71.248.216/29
-        - IpProtocol: tcp
-          FromPort: 5432
-          ToPort: 5432
-          CidrIp: 83.162.193.198/32
-        - IpProtocol: tcp
-          FromPort: 5432
-          ToPort: 5432
-          CidrIp: 82.94.168.194/32
-        - IpProtocol: tcp
-          FromPort: 5432
-          ToPort: 5432
-          CidrIp: 176.74.244.192/27
+    
     LambdaVPCEndpoint:
       Type: AWS::EC2::VPCEndpoint
       Properties: 
