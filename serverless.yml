@@ -62,29 +62,71 @@ provider:
 
 package:
   individually: true
-  
+           
+functions:
+  shopping-service-demo:
+    environment:
+      Host: ${env:QUEUE_HOST}    #!ImportValue ${self:provider.stage}-DBHost
+      UserName: ${env:QUEUE_USER}
+      PassWord: ${env:QUEUE_PASSWORD}
+      Port: ${env:QUEUE_PORT}
+      AUTH_VALID_AUDIENCE: 'ApplicationUser'
+    handler: ShoppingServiceV2::ShoppingServiceV2.LambdaEntryPoint::FunctionHandlerAsync
+
+    vpc: # Optional VPC. But if you use VPC then both subproperties (securityGroupIds and subnetIds) are required
+      securityGroupIds:
+       - !ImportValue ${self:provider.stage}-LambdaSecurityGroupId
+      subnetIds:
+       - !ImportValue ${self:provider.stage}-PrivateSubnetA
+       - !ImportValue ${self:provider.stage}-PrivateSubnetB
+    # you can add packaging information here
+    package:
+      artifact: bin/Release/netcoreapp3.1/shopping-service-demo-${self:custom.version}.zip
+    timeout: 20  
+    events:
+      - httpApi:
+          method: GET
+          path: /swagger/index.html
+      - httpApi:
+          method: GET
+          path: /swagger/v1/swagger.json
+      - httpApi:
+          method: GET
+          path: /swagger/swagger-ui.css
+      - httpApi:
+          method: GET
+          path: /swagger/swagger-ui-bundle.js
+      - httpApi:
+          method: GET
+          path: /swagger/swagger-ui-standalone-preset.js
+      - httpApi:
+          method: POST
+          path: /product
+      - httpApi:
+          method: GET
+          path: /api/S3Proxy       
 resources:
-  # Outputs:
-  #   VPCId:
-  #     Value: !Ref VPC
-  #     Export:
-  #       Name: ${self:provider.stage}-VPCId
-  #   SGId:
-  #     Value: !GetAtt ServerlessSecurityGroup.GroupId
-  #     Export:
-  #       Name: ${self:provider.stage}-LambdaSecurityGroupId
-  #   StorageSGId:
-  #     Value: !GetAtt ServerlessStorageSecurityGroup.GroupId
-  #     Export:
-  #       Name: ${self:provider.stage}-StorageSecurityGroupId
-  #   PrivateSubnetA:
-  #     Value: !Ref PrivateSubnetA
-  #     Export:
-  #       Name: ${self:provider.stage}-PrivateSubnetA
-  #   PrivateSubnetB:
-  #     Value: !Ref PrivateSubnetB
-  #     Export:
-  #       Name: ${self:provider.stage}-PrivateSubnetB
+  Outputs:
+    VPCId:
+      Value: !Ref VPC
+      Export:
+        Name: ${self:provider.stage}-VPCId
+    SGId:
+      Value: !GetAtt ServerlessSecurityGroup.GroupId
+      Export:
+        Name: ${self:provider.stage}-LambdaSecurityGroupId
+    StorageSGId:
+      Value: !GetAtt ServerlessStorageSecurityGroup.GroupId
+      Export:
+        Name: ${self:provider.stage}-StorageSecurityGroupId
+    PrivateSubnetA:
+      Value: !Ref PrivateSubnetA
+      Export:
+        Name: ${self:provider.stage}-PrivateSubnetA
+    PrivateSubnetB:
+      Value: !Ref PrivateSubnetB
+      Export:
+        Name: ${self:provider.stage}-PrivateSubnetB
   Resources:
     LambdaPackagesBucket:
       Type: AWS::S3::Bucket
@@ -265,46 +307,3 @@ resources:
         VpcEndpointType: Interface
         VpcId: !ImportValue ${self:provider.stage}-VPCId
           
-          
-functions:
-  shopping-service-demo:
-    environment:
-      Host: ${env:QUEUE_HOST}    #!ImportValue ${self:provider.stage}-DBHost
-      UserName: ${env:QUEUE_USER}
-      PassWord: ${env:QUEUE_PASSWORD}
-      Port: ${env:QUEUE_PORT}
-      AUTH_VALID_AUDIENCE: 'ApplicationUser'
-    handler: ShoppingServiceV2::ShoppingServiceV2.LambdaEntryPoint::FunctionHandlerAsync
-
-    vpc: # Optional VPC. But if you use VPC then both subproperties (securityGroupIds and subnetIds) are required
-      securityGroupIds:
-       - !ImportValue ${self:provider.stage}-LambdaSecurityGroupId
-      subnetIds:
-       - !ImportValue ${self:provider.stage}-PrivateSubnetA
-       - !ImportValue ${self:provider.stage}-PrivateSubnetB
-    # you can add packaging information here
-    package:
-      artifact: bin/Release/netcoreapp3.1/shopping-service-demo-${self:custom.version}.zip
-    timeout: 20  
-    events:
-      - httpApi:
-          method: GET
-          path: /swagger/index.html
-      - httpApi:
-          method: GET
-          path: /swagger/v1/swagger.json
-      - httpApi:
-          method: GET
-          path: /swagger/swagger-ui.css
-      - httpApi:
-          method: GET
-          path: /swagger/swagger-ui-bundle.js
-      - httpApi:
-          method: GET
-          path: /swagger/swagger-ui-standalone-preset.js
-      - httpApi:
-          method: POST
-          path: /product
-      - httpApi:
-          method: GET
-          path: /api/S3Proxy       
