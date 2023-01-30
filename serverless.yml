@@ -105,7 +105,10 @@ functions:
           path: /product
       - httpApi:
           method: GET
-          path: /api/S3Proxy       
+          path: /api/S3Proxy 
+      - httpApi:
+          method: GET
+          path: /api/Values      
 # resources:
 #   Outputs:
 #     VPCId:
