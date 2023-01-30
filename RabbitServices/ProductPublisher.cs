@@ -44,6 +44,7 @@ namespace ShoppingService2.RabbitMQ
             try
             {
                 using var connection = factory.CreateConnection();
+                _logger.LogInformation("Connect successfull");
                 using var channel = connection.CreateModel();
                 channel.QueueDeclare(queue: "hello",
                     durable: false,
