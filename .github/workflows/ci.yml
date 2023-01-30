@@ -71,10 +71,10 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.SHOPPING_SERVICE_AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.SHOPPING_SERVICE_AWS_SECRET_ACCESS_KEY }}
-        QUEUE_USER: ${{ secrets.SHOPPING_QUEUE_USER }}
-        QUEUE_PASSWORD: ${{ secrets.SHOPPING_QUEUE_PASSWORD }}
-        QUEUE_HOST: ${{ secrets.SHOPPING_QUEUE_HOST }}
-        QUEUE_PORT: ${{ secrets.SHOPPING_QUEUE_PORT }}
+        # QUEUE_USER: ${{ secrets.SHOPPING_QUEUE_USER }}
+        # QUEUE_PASSWORD: ${{ secrets.SHOPPING_QUEUE_PASSWORD }}
+        # QUEUE_HOST: ${{ secrets.SHOPPING_QUEUE_HOST }}
+        # QUEUE_PORT: ${{ secrets.SHOPPING_QUEUE_PORT }}
 
     - name: Configure AWS credentials from Test account
       uses: aws-actions/configure-aws-credentials@v1
