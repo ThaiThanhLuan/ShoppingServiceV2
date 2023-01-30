@@ -128,10 +128,6 @@ resources:
       Export:
         Name: ${self:provider.stage}-PrivateSubnetB
   Resources:
-    LambdaPackagesBucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: routing3-cocon-lambda-packages
     VPC:
       Type: AWS::EC2::VPC
       Properties:
