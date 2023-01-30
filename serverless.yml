@@ -106,27 +106,27 @@ functions:
           method: GET
           path: /api/S3Proxy       
 resources:
-  # Outputs:
-  #   VPCId:
-  #     Value: !Ref VPC
-  #     Export:
-  #       Name: ${self:provider.stage}-VPCId
-  #   SGId:
-  #     Value: !GetAtt ServerlessSecurityGroup.GroupId
-  #     Export:
-  #       Name: ${self:provider.stage}-LambdaSecurityGroupId
-  #   StorageSGId:
-  #     Value: !GetAtt ServerlessStorageSecurityGroup.GroupId
-  #     Export:
-  #       Name: ${self:provider.stage}-StorageSecurityGroupId
-  #   PrivateSubnetA:
-  #     Value: !Ref PrivateSubnetA
-  #     Export:
-  #       Name: ${self:provider.stage}-PrivateSubnetA
-  #   PrivateSubnetB:
-  #     Value: !Ref PrivateSubnetB
-  #     Export:
-  #       Name: ${self:provider.stage}-PrivateSubnetB
+  Outputs:
+    VPCId:
+      Value: !Ref VPC
+      Export:
+        Name: ${self:provider.stage}-VPCId
+    # SGId:
+    #   Value: !GetAtt ServerlessSecurityGroup.GroupId
+    #   Export:
+    #     Name: ${self:provider.stage}-LambdaSecurityGroupId
+    # StorageSGId:
+    #   Value: !GetAtt ServerlessStorageSecurityGroup.GroupId
+    #   Export:
+    #     Name: ${self:provider.stage}-StorageSecurityGroupId
+    # PrivateSubnetA:
+    #   Value: !Ref PrivateSubnetA
+    #   Export:
+    #     Name: ${self:provider.stage}-PrivateSubnetA
+    # PrivateSubnetB:
+    #   Value: !Ref PrivateSubnetB
+    #   Export:
+    #     Name: ${self:provider.stage}-PrivateSubnetB
   Resources:
     VPC:
       Type: AWS::EC2::VPC
