@@ -85,18 +85,6 @@ resources:
       Value: !Ref PrivateSubnetB
       Export:
         Name: ${self:provider.stage}-PrivateSubnetB
-    DBHost:
-      Value: !GetAtt DataSource.Endpoint.Address
-      Export:
-        Name: ${self:provider.stage}-DBHost
-    DBPort:
-      Value: !GetAtt DataSource.Endpoint.Port
-      Export:
-        Name: ${self:provider.stage}-DBPort
-    CacheFilesBucket:
-      Value: !Ref CacheFilesBucket
-      Export:
-        Name: ${self:provider.stage}-CacheFilesBucket
   Resources:
     LambdaPackagesBucket:
       Type: AWS::S3::Bucket
