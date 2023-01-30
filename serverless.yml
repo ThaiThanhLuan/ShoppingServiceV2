@@ -69,11 +69,11 @@ package:
            
 functions:
   shopping-service-demo:
-    environment:
-      Host: ${env:QUEUE_HOST}    #!ImportValue ${self:provider.stage}-DBHost
-      UserName: ${env:QUEUE_USER}
-      PassWord: ${env:QUEUE_PASSWORD}
-      Port: 5671
+    # environment:
+    #   Host: ${env:QUEUE_HOST}    #!ImportValue ${self:provider.stage}-DBHost
+    #   UserName: ${env:QUEUE_USER}
+    #   PassWord: ${env:QUEUE_PASSWORD}
+    #   Port: 5671
       AUTH_VALID_AUDIENCE: 'ApplicationUser'
     handler: ShoppingServiceV2::ShoppingServiceV2.LambdaEntryPoint::FunctionHandlerAsync
 
