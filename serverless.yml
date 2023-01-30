@@ -111,14 +111,14 @@ resources:
       Value: !Ref VPC
       Export:
         Name: ${self:provider.stage}-VPCId
-    # SGId:
-    #   Value: !GetAtt ServerlessSecurityGroup.GroupId
-    #   Export:
-    #     Name: ${self:provider.stage}-LambdaSecurityGroupId
-    # StorageSGId:
-    #   Value: !GetAtt ServerlessStorageSecurityGroup.GroupId
-    #   Export:
-    #     Name: ${self:provider.stage}-StorageSecurityGroupId
+    SGId:
+      Value: !GetAtt ServerlessSecurityGroup.GroupId
+      Export:
+        Name: ${self:provider.stage}-LambdaSecurityGroupId
+    StorageSGId:
+      Value: !GetAtt ServerlessStorageSecurityGroup.GroupId
+      Export:
+         Name: ${self:provider.stage}-StorageSecurityGroupId
     PrivateSubnetA:
       Value: !Ref PrivateSubnetA
       Export:
