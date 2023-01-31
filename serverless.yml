@@ -91,10 +91,9 @@ functions:
 
     vpc: # Optional VPC. But if you use VPC then both subproperties (securityGroupIds and subnetIds) are required
       securityGroupIds:
-        - "Fn::GetAtt": [ServerlessSecurityGroup, GroupId]
+        - sg-00f32c2988c76823f
       subnetIds:
-        - Ref: PrivateSubnetA
-        - Ref: PrivateSubnetB
+        - subnet-087bd9f7fae17472e
     # you can add packaging information here
     package:
       artifact: bin/Release/netcoreapp3.1/shopping-service-demo-${self:custom.version}.zip
@@ -125,187 +124,187 @@ functions:
           method: GET
           path: /api/Values      
 
-resources:
-  Outputs:
-    VPCId:
-      Value: !Ref VPC
-      Export:
-        Name: ${self:provider.stage}-VPCId
-    SGId:
-      Value: !GetAtt ServerlessSecurityGroup.GroupId
-      Export:
-        Name: ${self:provider.stage}-LambdaSecurityGroupId
-    StorageSGId:
-      Value: !GetAtt ServerlessStorageSecurityGroup.GroupId
-      Export:
-        Name: ${self:provider.stage}-StorageSecurityGroupId
-    PrivateSubnetA:
-      Value: !Ref PrivateSubnetA
-      Export:
-        Name: ${self:provider.stage}-PrivateSubnetA
-    PrivateSubnetB:
-      Value: !Ref PrivateSubnetB
-      Export:
-        Name: ${self:provider.stage}-PrivateSubnetB
-  Resources:
-    VPC:
-      Type: AWS::EC2::VPC
-      Properties:
-        CidrBlock: "10.0.0.0/16"
-        EnableDnsHostnames: true
-    S3Endpoint:
-      Type: 'AWS::EC2::VPCEndpoint'
-      Properties:
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Principal: '*'
-              Action: '*'
-              Resource: '*'
-        RouteTableIds:
-          - Ref: PrivateRouteTableA
-          - Ref: PrivateRouteTableB
-        ServiceName: !Sub 'com.amazonaws.${self:provider.region}.s3'
-        VpcId: 
-          Ref: VPC
-    IP:
-      Type: AWS::EC2::EIP
-      Properties:
-        Domain: vpc
-    InternetGateway:
-      Type: AWS::EC2::InternetGateway
-    VPCGatewayAttachment:
-      Type: AWS::EC2::VPCGatewayAttachment
-      Properties:
-        VpcId:
-          Ref: VPC
-        InternetGatewayId:
-          Ref: InternetGateway
-    PrivateSubnetA:
-      DependsOn: VPC
-      Type: AWS::EC2::Subnet
-      Properties:
-        VpcId:
-          Ref: VPC
-        AvailabilityZone: ${self:provider.region}a
-        CidrBlock: "10.0.1.0/24"
-    PrivateSubnetB:
-      DependsOn: VPC
-      Type: AWS::EC2::Subnet
-      Properties:
-        VpcId:
-          Ref: VPC
-        AvailabilityZone: ${self:provider.region}b
-        CidrBlock: "10.0.2.0/24"
-    PrivateRouteTableA:
-      Type: AWS::EC2::RouteTable
-      Properties:
-        VpcId:
-          Ref: VPC
-    PrivateRouteA:
-      Type: AWS::EC2::Route
-      Properties:
-        RouteTableId:
-          Ref: PrivateRouteTableA
-        DestinationCidrBlock: 0.0.0.0/0
-        GatewayId:
-          Ref: InternetGateway
-    PrivateRouteTableB:
-      Type: AWS::EC2::RouteTable
-      Properties:
-        VpcId:
-          Ref: VPC
-    PrivateRouteB:
-      Type: AWS::EC2::Route
-      Properties:
-        RouteTableId:
-          Ref: PrivateRouteTableB
-        DestinationCidrBlock: 0.0.0.0/0
-        GatewayId:
-          Ref: InternetGateway
-    SubnetRouteTableAssociationLambdaPrivateA:
-      Type: AWS::EC2::SubnetRouteTableAssociation
-      Properties:
-        SubnetId:
-          Ref: PrivateSubnetA
-        RouteTableId:
-          Ref: PrivateRouteTableA
-    SubnetRouteTableAssociationLambdaPrivateB:
-      Type: AWS::EC2::SubnetRouteTableAssociation
-      Properties:
-        SubnetId:
-          Ref: PrivateSubnetB
-        RouteTableId:
-          Ref: PrivateRouteTableB
-    ServerlessSecurityGroup:
-      DependsOn: VPC
-      Type: AWS::EC2::SecurityGroup
-      Properties:
-        GroupDescription: SecurityGroup for Serverless Functions
-        VpcId:
-          Ref: VPC
-    ServerlessSecurityGroupIngress:
-      DependsOn: VPC
-      Type: AWS::EC2::SecurityGroupIngress
-      Properties:
-        Description: SecurityGroup for Serverless Functions
-        GroupId: 
-          Ref: ServerlessSecurityGroup
-        IpProtocol: tcp
-        FromPort: 5671
-        ToPort: 5671
-        SourceSecurityGroupId:
-          Ref: ServerlessSecurityGroup
-    ServerlessStorageSecurityGroup:
-      DependsOn: VPC
-      Type: AWS::EC2::SecurityGroup
-      Properties:
-        GroupDescription: Ingress for Memcached/RDS Cluster
-        VpcId:
-          Ref: VPC
-        SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 5671
-          ToPort: 5671
-          SourceSecurityGroupId:
-            Ref: ServerlessSecurityGroup
-        - IpProtocol: tcp
-          FromPort: 5671
-          ToPort: 5671
-          SourceSecurityGroupId:
-            Ref: ServerlessSecurityGroup
-        - IpProtocol: tcp
-          FromPort: 5671
-          ToPort: 5671
-          SourceSecurityGroupId:
-            Ref: ServerlessSecurityGroup
-        - IpProtocol: tcp
-          FromPort: 5671
-          ToPort: 5671
-          CidrIp: 185.160.73.126/32
-        - IpProtocol: tcp
-          FromPort: 5671
-          ToPort: 5671
-          CidrIp: 113.160.252.73/32
-        - IpProtocol: tcp
-          FromPort: 5671
-          ToPort: 5671
-          CidrIp: 123.25.108.221/32
-        - IpProtocol: tcp
-          FromPort: 5671
-          ToPort: 5671
-          CidrIp: 27.71.248.216/29
-        - IpProtocol: tcp
-          FromPort: 5671
-          ToPort: 5671
-          CidrIp: 83.162.193.198/32
-        - IpProtocol: tcp
-          FromPort: 5671
-          ToPort: 5671
-          CidrIp: 82.94.168.194/32
-        - IpProtocol: tcp
-          FromPort: 5671
-          ToPort: 5671
-          CidrIp: 176.74.244.192/27
+# resources:
+#   Outputs:
+#     VPCId:
+#       Value: !Ref VPC
+#       Export:
+#         Name: ${self:provider.stage}-VPCId
+#     SGId:
+#       Value: !GetAtt ServerlessSecurityGroup.GroupId
+#       Export:
+#         Name: ${self:provider.stage}-LambdaSecurityGroupId
+#     StorageSGId:
+#       Value: !GetAtt ServerlessStorageSecurityGroup.GroupId
+#       Export:
+#         Name: ${self:provider.stage}-StorageSecurityGroupId
+#     PrivateSubnetA:
+#       Value: !Ref PrivateSubnetA
+#       Export:
+#         Name: ${self:provider.stage}-PrivateSubnetA
+#     PrivateSubnetB:
+#       Value: !Ref PrivateSubnetB
+#       Export:
+#         Name: ${self:provider.stage}-PrivateSubnetB
+#   Resources:
+#     VPC:
+#       Type: AWS::EC2::VPC
+#       Properties:
+#         CidrBlock: "10.0.0.0/16"
+#         EnableDnsHostnames: true
+#     S3Endpoint:
+#       Type: 'AWS::EC2::VPCEndpoint'
+#       Properties:
+#         PolicyDocument:
+#           Version: '2012-10-17'
+#           Statement:
+#             - Effect: Allow
+#               Principal: '*'
+#               Action: '*'
+#               Resource: '*'
+#         RouteTableIds:
+#           - Ref: PrivateRouteTableA
+#           - Ref: PrivateRouteTableB
+#         ServiceName: !Sub 'com.amazonaws.${self:provider.region}.s3'
+#         VpcId: 
+#           Ref: VPC
+#     IP:
+#       Type: AWS::EC2::EIP
+#       Properties:
+#         Domain: vpc
+#     InternetGateway:
+#       Type: AWS::EC2::InternetGateway
+#     VPCGatewayAttachment:
+#       Type: AWS::EC2::VPCGatewayAttachment
+#       Properties:
+#         VpcId:
+#           Ref: VPC
+#         InternetGatewayId:
+#           Ref: InternetGateway
+#     PrivateSubnetA:
+#       DependsOn: VPC
+#       Type: AWS::EC2::Subnet
+#       Properties:
+#         VpcId:
+#           Ref: VPC
+#         AvailabilityZone: ${self:provider.region}a
+#         CidrBlock: "10.0.1.0/24"
+#     PrivateSubnetB:
+#       DependsOn: VPC
+#       Type: AWS::EC2::Subnet
+#       Properties:
+#         VpcId:
+#           Ref: VPC
+#         AvailabilityZone: ${self:provider.region}b
+#         CidrBlock: "10.0.2.0/24"
+#     PrivateRouteTableA:
+#       Type: AWS::EC2::RouteTable
+#       Properties:
+#         VpcId:
+#           Ref: VPC
+#     PrivateRouteA:
+#       Type: AWS::EC2::Route
+#       Properties:
+#         RouteTableId:
+#           Ref: PrivateRouteTableA
+#         DestinationCidrBlock: 0.0.0.0/0
+#         GatewayId:
+#           Ref: InternetGateway
+#     PrivateRouteTableB:
+#       Type: AWS::EC2::RouteTable
+#       Properties:
+#         VpcId:
+#           Ref: VPC
+#     PrivateRouteB:
+#       Type: AWS::EC2::Route
+#       Properties:
+#         RouteTableId:
+#           Ref: PrivateRouteTableB
+#         DestinationCidrBlock: 0.0.0.0/0
+#         GatewayId:
+#           Ref: InternetGateway
+#     SubnetRouteTableAssociationLambdaPrivateA:
+#       Type: AWS::EC2::SubnetRouteTableAssociation
+#       Properties:
+#         SubnetId:
+#           Ref: PrivateSubnetA
+#         RouteTableId:
+#           Ref: PrivateRouteTableA
+#     SubnetRouteTableAssociationLambdaPrivateB:
+#       Type: AWS::EC2::SubnetRouteTableAssociation
+#       Properties:
+#         SubnetId:
+#           Ref: PrivateSubnetB
+#         RouteTableId:
+#           Ref: PrivateRouteTableB
+#     ServerlessSecurityGroup:
+#       DependsOn: VPC
+#       Type: AWS::EC2::SecurityGroup
+#       Properties:
+#         GroupDescription: SecurityGroup for Serverless Functions
+#         VpcId:
+#           Ref: VPC
+#     ServerlessSecurityGroupIngress:
+#       DependsOn: VPC
+#       Type: AWS::EC2::SecurityGroupIngress
+#       Properties:
+#         Description: SecurityGroup for Serverless Functions
+#         GroupId: 
+#           Ref: ServerlessSecurityGroup
+#         IpProtocol: tcp
+#         FromPort: 5671
+#         ToPort: 5671
+#         SourceSecurityGroupId:
+#           Ref: ServerlessSecurityGroup
+#     ServerlessStorageSecurityGroup:
+#       DependsOn: VPC
+#       Type: AWS::EC2::SecurityGroup
+#       Properties:
+#         GroupDescription: Ingress for Memcached/RDS Cluster
+#         VpcId:
+#           Ref: VPC
+#         SecurityGroupIngress:
+#         - IpProtocol: tcp
+#           FromPort: 5671
+#           ToPort: 5671
+#           SourceSecurityGroupId:
+#             Ref: ServerlessSecurityGroup
+#         - IpProtocol: tcp
+#           FromPort: 5671
+#           ToPort: 5671
+#           SourceSecurityGroupId:
+#             Ref: ServerlessSecurityGroup
+#         - IpProtocol: tcp
+#           FromPort: 5671
+#           ToPort: 5671
+#           SourceSecurityGroupId:
+#             Ref: ServerlessSecurityGroup
+#         - IpProtocol: tcp
+#           FromPort: 5671
+#           ToPort: 5671
+#           CidrIp: 185.160.73.126/32
+#         - IpProtocol: tcp
+#           FromPort: 5671
+#           ToPort: 5671
+#           CidrIp: 113.160.252.73/32
+#         - IpProtocol: tcp
+#           FromPort: 5671
+#           ToPort: 5671
+#           CidrIp: 123.25.108.221/32
+#         - IpProtocol: tcp
+#           FromPort: 5671
+#           ToPort: 5671
+#           CidrIp: 27.71.248.216/29
+#         - IpProtocol: tcp
+#           FromPort: 5671
+#           ToPort: 5671
+#           CidrIp: 83.162.193.198/32
+#         - IpProtocol: tcp
+#           FromPort: 5671
+#           ToPort: 5671
+#           CidrIp: 82.94.168.194/32
+#         - IpProtocol: tcp
+#           FromPort: 5671
+#           ToPort: 5671
+#           CidrIp: 176.74.244.192/27
     
