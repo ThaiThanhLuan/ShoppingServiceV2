@@ -147,7 +147,6 @@ resources:
       Value: !Ref PrivateSubnetB
       Export:
         Name: ${self:provider.stage}-PrivateSubnetB
-
   Resources:
     VPC:
       Type: AWS::EC2::VPC
