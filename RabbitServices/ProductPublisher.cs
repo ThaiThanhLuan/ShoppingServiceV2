@@ -31,12 +31,12 @@ namespace ShoppingService2.RabbitMQ
             ConnectionFactory factory = new ConnectionFactory();
             factory.UserName = "master";
             factory.Password = "master@123456789";
-            factory.HostName = "localhost";
+            factory.HostName = "Demo-queue";
             factory.Port = 5671; 
             factory.Ssl = new SslOption
             {
                 Enabled = true,
-                ServerName = "localhost"
+                ServerName = "Demo-queue"
             };
 
 /*            ServicePointManager.SecurityProtocol = SecurityProtocolTypeExtensions.Tls12;*/
