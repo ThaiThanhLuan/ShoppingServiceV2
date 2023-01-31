@@ -269,7 +269,7 @@ resources:
         FromPort: 5671
         ToPort: 5671
         SourceSecurityGroupId:
-          Ref: RabbitMQSecurityGroup
+          Ref: ServerlessSecurityGroup
     ServerlessStorageSecurityGroup:
       DependsOn: VPC
       Type: AWS::EC2::SecurityGroup
