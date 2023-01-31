@@ -126,40 +126,44 @@ functions:
           path: /api/Values      
 
 resources:
-  # Outputs:
-  #   VPCId:
-  #     Value: !Ref VPC
-  #     Export:
-  #       Name: ${self:provider.stage}-VPCId
-  #   SGId:
-  #     Value: !GetAtt ServerlessSecurityGroup.GroupId
-  #     Export:
-  #       Name: ${self:provider.stage}-LambdaSecurityGroupId
-  #   StorageSGId:
-  #     Value: !GetAtt ServerlessStorageSecurityGroup.GroupId
-  #     Export:
-  #       Name: ${self:provider.stage}-StorageSecurityGroupId
-  #   PrivateSubnetA:
-  #     Value: !Ref PrivateSubnetA
-  #     Export:
-  #       Name: ${self:provider.stage}-PrivateSubnetA
-  #   PrivateSubnetB:
-  #     Value: !Ref PrivateSubnetB
-  #     Export:
-  #       Name: ${self:provider.stage}-PrivateSubnetB
-  #   DBHost:
-  #     Value: !GetAtt DataSource.Endpoint.Address
-  #     Export:
-  #       Name: ${self:provider.stage}-DBHost
-  #   DBPort:
-  #     Value: !GetAtt DataSource.Endpoint.Port
-  #     Export:
-  #       Name: ${self:provider.stage}-DBPort
-  #   CacheFilesBucket:
-  #     Value: !Ref CacheFilesBucket
-  #     Export:
-  #       Name: ${self:provider.stage}-CacheFilesBucket
+  Outputs:
+    VPCId:
+      Value: !Ref VPC
+      Export:
+        Name: ${self:provider.stage}-VPCId
+    SGId:
+      Value: !GetAtt ServerlessSecurityGroup.GroupId
+      Export:
+        Name: ${self:provider.stage}-LambdaSecurityGroupId
+    StorageSGId:
+      Value: !GetAtt ServerlessStorageSecurityGroup.GroupId
+      Export:
+        Name: ${self:provider.stage}-StorageSecurityGroupId
+    PrivateSubnetA:
+      Value: !Ref PrivateSubnetA
+      Export:
+        Name: ${self:provider.stage}-PrivateSubnetA
+    PrivateSubnetB:
+      Value: !Ref PrivateSubnetB
+      Export:
+        Name: ${self:provider.stage}-PrivateSubnetB
+    DBHost:
+      Value: !GetAtt DataSource.Endpoint.Address
+      Export:
+        Name: ${self:provider.stage}-DBHost
+    DBPort:
+      Value: !GetAtt DataSource.Endpoint.Port
+      Export:
+        Name: ${self:provider.stage}-DBPort
+    CacheFilesBucket:
+      Value: !Ref CacheFilesBucket
+      Export:
+        Name: ${self:provider.stage}-CacheFilesBucket
   Resources:
+    CacheFilesBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${env:S3_BUCKET_NAME}
     VPC:
       Type: AWS::EC2::VPC
       Properties:
@@ -254,7 +258,6 @@ resources:
       DependsOn: VPC
       Type: AWS::EC2::SecurityGroup
       Properties:
-        GroupName: ${self:provider.stage}-ServerlessSecurityGroup
         GroupDescription: SecurityGroup for Serverless Functions
         VpcId:
           Ref: VPC
@@ -275,7 +278,6 @@ resources:
       Type: AWS::EC2::SecurityGroup
       Properties:
         GroupDescription: Ingress for Memcached/RDS Cluster
-        GroupName: ${self:provider.stage}-ServerlessStorageSecurityGroup
         VpcId:
           Ref: VPC
         SecurityGroupIngress:
