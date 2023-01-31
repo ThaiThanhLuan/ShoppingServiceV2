@@ -160,10 +160,6 @@ resources:
       Export:
         Name: ${self:provider.stage}-CacheFilesBucket
   Resources:
-    CacheFilesBucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: ${env:S3_BUCKET_NAME}
     VPC:
       Type: AWS::EC2::VPC
       Properties:
